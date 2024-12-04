@@ -1,0 +1,8 @@
+This forlder contains python scripts that are faking the output of J-PET data acquisition system.
+The scripts can be run periodically with crontab. Modify the crontab settings:
+
+crontab -e
+
+add the line to tun it every 5 minutes:
+
+*/5 * * * * python3 /path/to/the/script/fake_meteo.py
