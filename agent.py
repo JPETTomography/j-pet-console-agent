@@ -11,8 +11,6 @@ from watchdog.events import FileSystemEventHandler
 
 
 # logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(message)s')
-HOST = "agent"
-PORT = 12345
 TOPIC = "root_json"
 
 
@@ -54,8 +52,9 @@ def send_message(topic, message):
 #     channel.start_consuming()
 
 
-def send_data(json_data, agent_code, socket):
-    connection_info = {"ip": HOST, "port": PORT, "uuid": str(uuid.uuid4()), "agent_code": agent_code}
+def send_data(json_data, agent_code, socket, host=HOST, port=PORT):
+    bound_host, bound_port = socket.getsockname()
+    connection_info = {"ip": bound_host, "port": bound_port, "uuid": str(uuid.uuid4()), "agent_code": agent_code}
     encoded_info = json.dumps(connection_info).encode("utf-8")
     print("Sending connection info to Rabbit...")
     send_message("worker_topic", encoded_info)
@@ -96,9 +95,10 @@ class NewFileHandler(FileSystemEventHandler):
         self.hist_def = config['detector']['hist_def']
 
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server_socket.bind((HOST, PORT))
+        host, port = config['agent']['host'], config['agent']['port']
+        self.server_socket.bind((host, port))
         self.server_socket.listen(5)
-        print(f"Server listening on {HOST}:{PORT}...")
+        print(f"Server listening on {host}:{port}...")
 
     def on_created(self, event):
         print("TRIGGERED!")
