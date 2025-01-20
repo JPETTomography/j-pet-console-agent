@@ -24,6 +24,6 @@ RUN conda init && \
 
 RUN pip install requests psycopg2-binary==2.9.10 watchdog==3.0.0 passlib pika && apt-get update
 
-ADD . /app
+ADD . /app/agent
 WORKDIR /app/
-CMD ["./common/wait-for-rabbit.sh","./agent/entrypoint.sh"]
+CMD ["./agent/entrypoint.sh"]

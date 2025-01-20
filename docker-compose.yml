@@ -6,8 +6,3 @@ services:
     container_name: agent
     ports:
       - "12345:12345"
-    depends_on:
-      - rabbitmq
-      - web
-    environment:
-      - RABBITMQ_HOST=rabbitmq
