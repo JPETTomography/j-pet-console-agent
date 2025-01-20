@@ -13,15 +13,10 @@ from watchdog.events import FileSystemEventHandler
 # logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(message)s')
 TOPIC = "root_json"
 
-
-rabbitmq_host = "rabbitmq"
-credentials = pika.PlainCredentials("user", "password")
-parameters = pika.ConnectionParameters(
-    rabbitmq_host,
-    5672,
-    "/",
-    credentials,
-)
+def read_config(filepath):
+    with open(filepath) as f:
+        config = yaml.safe_load(f)
+    return config
 
 
 def send_message(topic, message):
@@ -82,10 +77,6 @@ def process_file(root_file_path, hist_def, agent_code, socket):
     send_data(root_json_data, agent_code, socket)
 
 
-def read_config(filepath):
-    with open(filepath) as f:
-        config = yaml.safe_load(f)
-    return config
 
 
 class NewFileHandler(FileSystemEventHandler):
@@ -120,7 +111,17 @@ class NewFileHandler(FileSystemEventHandler):
 
 if __name__ == "__main__":
     # consume_messages()
-    config = read_config("./agent/examplary_config.yaml")
+    config = read_config("./agent/config.yaml")
+
+    rabbitmq_host = config['general']['rabbitmq_host']
+    credentials = pika.PlainCredentials("user", "password")
+    parameters = pika.ConnectionParameters(
+        rabbitmq_host,
+        5672,
+        "/",
+        credentials,
+    )
+
     event_handler = NewFileHandler(config)
     observer = Observer()
     path_to_watch = config["detector"]['path_to_watch']

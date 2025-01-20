@@ -5,3 +5,5 @@ detector:
 agent:
   host: "agent"
   port: 12345
+general:
+  rabbitmq_host: "rabbitmq"

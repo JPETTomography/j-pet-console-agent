@@ -1,8 +1,8 @@
 services:
   agent:
     build:
-      context: ./
-      dockerfile: ./agent/Dockerfile
+      context: .
+      dockerfile: ./Dockerfile
     container_name: agent
     ports:
       - "12345:12345"
