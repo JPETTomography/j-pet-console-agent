@@ -47,7 +47,7 @@ def send_message(topic, message):
 #     channel.start_consuming()
 
 
-def send_data(json_data, agent_code, socket, host=HOST, port=PORT):
+def send_data(json_data, agent_code, socket):
     bound_host, bound_port = socket.getsockname()
     connection_info = {"ip": bound_host, "port": bound_port, "uuid": str(uuid.uuid4()), "agent_code": agent_code}
     encoded_info = json.dumps(connection_info).encode("utf-8")
