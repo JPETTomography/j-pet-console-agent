@@ -1,0 +1,76 @@
+{
+  "Plots" : [
+	  {
+	    "Title" : "Channel occupancies",
+	    "Directory" : "TimeWindowCreator subtask 0 stats",
+	    "Histo" : "occ_channels",
+	    "Options" : "",
+	    "Description" : "Multiplicities of TDC signals by channel number.",
+	    "Selection criteria" : "(Downscaled)"
+	  },
+	  {
+	    "Title" : "Good and corrupted TDC times",
+	    "Directory" : "TimeWindowCreator subtask 0 stats",
+	    "Histo" : "reco_flags_chsig",
+	    "Options" : "logy",
+	    "Description" : "\"Corrupted\" SigCh-s (the second bin) originate from lost or corrupted data at the DAQ level. There is always a fraction of them but is should be stable over time. <br><br> Alert if the ratio of the second bin to the first one increases.",
+	    "Selection criteria" : "Every reconstructed hit."
+	  },
+	  {
+	    "Title" : "TDC times per time window",
+	    "Directory" : "TimeWindowCreator subtask 0 stats",
+	    "Histo" : "chsig_tslot",
+	    "Options" : "",
+	    "Description" : "Number of TDC times recorded within a single 50 microsecond time window od the DAQ system.",
+	    "Selection criteria" : "All raw data."
+	  },
+		{
+	    "Title" : "Size of identified SiPM matrix signals",
+	    "Directory" : "SignalTransformer subtask 2 stats",
+	    "Histo" : "mtxsig_multi",
+	    "Options" : "",
+	    "Description" : "SiPM matrix signals consist of 1-4 SiPM signals from the same matrix.<br>The plot presents frequency of recording a matrix signal with 1,2,3 and 4 SiPM signals in coincidence.",
+	    "Selection criteria" : "All reconstructed SiPM matrix signals."
+		},
+		{
+	    "Title" : "Multiplicity of SiPM matrix signals in a time window",
+	    "Directory" : "SignalTransformer subtask 2 stats",
+	    "Histo" : "mtxsig_tslot",
+	    "Options" : "",
+	    "Description" : "Number of SiPM matrix signals identified within a single 50 microsecond time window od the DAQ system.",
+	    "Selection criteria" : "All reconstructed SiPM signals."
+	  },	
+	  {
+	    "Title" : "Hit A-B time differences vs scintillator ID",
+	    "Directory" : "HitFinder subtask 3 stats",
+	    "Histo" : "hit_tdiff_scin",
+	    "Options" : "colz",
+	    "Description" : "Time difference between A and B sides of a hit vs ID of the scintillator recording the hit.<br>Should constitute a uniform band.<br>The edges of the band getting jagged indicate calibration going off.<br>Watch out for gaps indicating problematic scintillator.",
+	    "Selection criteria" : "Every reconstructed hit."
+	  },
+	  {
+	    "Title" : "Multiplicity of hits in a time window",
+	    "Directory" : "HitFinder subtask 3 stats",
+	    "Histo" : "hits_tslot",
+	    "Options" : "",
+	    "Description" : "Number of hits identified within a single 50 microsecond time window od the DAQ system.",
+	    "Selection criteria" : "Every reconstructed hit."
+	  },
+	  {
+	    "Title" : "Multiplicity of hits per scintillator",
+	    "Directory" : "HitFinder subtask 3 stats",
+	    "Histo" : "hits_scin",
+	    "Options" : "",
+	    "Description" : "Number of hits identified in a particular scintillator.",
+	    "Selection criteria" : "Every reconstructed hit."
+	  },
+	  {
+	    "Title" : "Hit TOT vs scintillator ID",
+	    "Directory" : "HitFinder subtask 3 stats",
+	    "Histo" : "hit_tot_scin",
+	    "Options" : "colz",
+	    "Description" : "Time Over Threshold (calculated with the rectangular approximation) of  a hit vs ID of the scintillator recording the hit.",
+	    "Selection criteria" : "Every reconstructed hit."
+	  }
+  ]
+}
