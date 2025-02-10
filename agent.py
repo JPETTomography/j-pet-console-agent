@@ -6,7 +6,7 @@ import pika
 import yaml
 import time
 import uuid
-from watchdog.observers import Observer
+from watchdog.observers.polling import PollingObserver
 from watchdog.events import FileSystemEventHandler
 
 
@@ -123,7 +123,7 @@ if __name__ == "__main__":
     )
 
     event_handler = NewFileHandler(config)
-    observer = Observer()
+    observer = PollingObserver()
     path_to_watch = config["detector"]['path_to_watch']
     observer.schedule(event_handler, path=path_to_watch, recursive=False)
     observer.start()
