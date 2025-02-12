@@ -51,8 +51,9 @@ def send_data(json_data, agent_code, socket):
     bound_host, bound_port = socket.getsockname()
     connection_info = {"ip": bound_host, "port": bound_port, "uuid": str(uuid.uuid4()), "agent_code": agent_code}
     encoded_info = json.dumps(connection_info).encode("utf-8")
-    print("Sending connection info to Rabbit...")
+    print("Sending connection info to Rabbit...", connection_info)
     send_message("worker_topic", encoded_info)
+    print("Message sent, starting listening loop")
     socket.settimeout(15)
     while True:
         try:
@@ -106,6 +107,7 @@ class NewFileHandler(FileSystemEventHandler):
                 print("FINISHED!")
         except Exception as e:
             print(f"Error processing file {event.src_path}: {e}")
+            raise e
         print("exiting on_created")
 
 

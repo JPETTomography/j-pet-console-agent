@@ -6,3 +6,9 @@ services:
     container_name: agent
     ports:
       - "12345:12345"
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    external: true
