@@ -127,7 +127,10 @@ if __name__ == "__main__":
     event_handler = NewFileHandler(config)
     observer = PollingObserver()
     path_to_watch = config["detector"]['path_to_watch']
+    additional_path_to_watch = config.get("helper", {}).get('additional_path_to_watch', None)
     observer.schedule(event_handler, path=path_to_watch, recursive=False)
+    if additional_path_to_watch:
+        observer.schedule(event_handler, path=additional_path_to_watch, recursive=False)
     observer.start()
     print(f"Watching folder: {path_to_watch}")
     try:

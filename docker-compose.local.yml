@@ -3,3 +3,4 @@ services:
     volumes:
       - .:/app/agent/
       - ../examplary_data:/data/
+      - ../additional_examplary_data:/additional_data/

@@ -1,7 +1,9 @@
 detector:
   agent_code: "550e8400-e29b-41d4-a716-446655440000"
-  hist_def: "examplary_data/histo_description.json"
+  hist_def: "/app/agent/desc/histo_description.json"
   path_to_watch: "/data/"
+helper:
+  additional_path_to_watch: "/extra/"
 agent:
   host: "agent"
   port: 12345
