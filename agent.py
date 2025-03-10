@@ -98,12 +98,12 @@ class NewFileHandler(FileSystemEventHandler):
             if not event.is_directory:
                 time.sleep(1)
                 print(f"New file detected: {event.src_path}")
-                connection_objects = self.host, self.port, self.server_socker
+                connection_objects = self.host, self.port, self.server_socket
                 process_file(
                     root_file_path=event.src_path,
                     hist_def=self.hist_def,
                     agent_code=self.agent_code,
-                    connection_objcects=connection_objects
+                    connection_objects=connection_objects
                 )
                 print("FINISHED!")
         except Exception as e:
