@@ -47,8 +47,8 @@ def send_message(topic, message):
 #     channel.start_consuming()
 
 
-def send_data(json_data, agent_code, socket):
-    bound_host, bound_port = socket.getsockname()
+def send_data(json_data, agent_code, connection_objects):
+    bound_host, bound_port, socket = connection_objects
     connection_info = {"ip": bound_host, "port": bound_port, "uuid": str(uuid.uuid4()), "agent_code": agent_code}
     encoded_info = json.dumps(connection_info).encode("utf-8")
     print("Sending connection info to Rabbit...", connection_info)
@@ -70,12 +70,12 @@ def send_data(json_data, agent_code, socket):
             break
 
 
-def process_file(root_file_path, hist_def, agent_code, socket):
+def process_file(root_file_path, hist_def, agent_code, connection_objects):
     # hist_def = "examplary_data/histo_description.json"
     # root_file_path = "examplary_data/2024_02_14_14_57_dabc_24043183007.root"
     print("reading_data")
     root_json_data = root_file_to_json(hist_def, root_file_path)
-    send_data(root_json_data, agent_code, socket)
+    send_data(root_json_data, agent_code, connection_objects)
 
 
 
@@ -87,10 +87,10 @@ class NewFileHandler(FileSystemEventHandler):
         self.hist_def = config['detector']['hist_def']
 
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        host, port = config['agent']['host'], config['agent']['port']
-        self.server_socket.bind((host, port))
+        self.host, self.port = config['agent']['host'], config['agent']['port']
+        self.server_socket.bind((self.host, self.port))
         self.server_socket.listen(5)
-        print(f"Server listening on {host}:{port}...")
+        print(f"Server listening on {self.host}:{self.port}...")
 
     def on_created(self, event):
         print("TRIGGERED!")
@@ -98,11 +98,12 @@ class NewFileHandler(FileSystemEventHandler):
             if not event.is_directory:
                 time.sleep(1)
                 print(f"New file detected: {event.src_path}")
+                connection_objects = self.host, self.port, self.server_socker
                 process_file(
                     root_file_path=event.src_path,
                     hist_def=self.hist_def,
                     agent_code=self.agent_code,
-                    socket=self.server_socket,
+                    connection_objcects=connection_objects
                 )
                 print("FINISHED!")
         except Exception as e:
